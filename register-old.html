@@ -1,0 +1,807 @@
+<!doctype html>
+<html lang="en" dir="ltr">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+        content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <meta http-equiv="Content-Language" content="en" />
+    <meta name="msapplication-TileColor" content="#2d89ef">
+    <meta name="theme-color" content="#4188c9">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="HandheldFriendly" content="True">
+    <meta name="MobileOptimized" content="320">
+    <link rel="icon" href="./favicon.ico" type="image/x-icon" />
+    <link rel="shortcut icon" type="image/x-icon" href="./favicon.ico" />
+
+
+
+    <meta content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=no" id="viewport"
+        name="viewport">
+    <meta name="format-detection" content="telephone=no, email=no" />
+    <meta name="wap-font-scale" content="no">
+    <!--uc浏览器判断到页面上文字居多时，会自动放大字体优化移动用户体验。这个可以禁止掉-->
+    <meta name="apple-touch-fullscreen" content="yes" /><!-- 是否启用 WebApp 全屏模式，删除苹果默认的工具栏和菜单栏 -->
+    <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+    <!-- 设置苹果工具栏颜色:默认值为 default，可以定为 black和 black-translucent-->
+    <meta http-equiv="Cache-Control" content="no-siteapp" /><!-- 不让百度转码 -->
+    <meta name="HandheldFriendly" content="true"><!-- 针对手持设备优化，主要是针对一些老的不识别viewport的浏览器，比如黑莓 -->
+    <meta name="MobileOptimized" content="320"><!-- 微软的老式浏览器 -->
+    <meta name="screen-orientation" content="portrait"><!-- uc强制竖屏 -->
+    <meta name="x5-orientation" content="portrait"><!-- QQ强制竖屏 -->
+    <meta name="x5-page-mode" content="app"><!-- QQ应用模式 -->
+    <meta name="msapplication-tap-highlight" content="no"><!-- windows phone 点击无高光 -->
+    <meta name="apple-mobile-web-app-capable" content="yes"><!-- ios 开启对web app程序的支持 -->
+    <meta name="apple-mobile-web-app-status-bar-style" content="black"><!-- ios 改变顶部状态条的颜色 -->
+
+
+    <title>受检者信息登记</title>
+    <!--link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,300i,400,400i,500,500i,600,600i,700,700i&amp;subset=latin-ext">
+    <link rel="stylesheet" href="/public/crm/css/font-awesome.min.css">
+    <link rel="stylesheet" href="/public/crm/css/googlefonts.css"-->
+
+
+
+
+    <!-- <script src="/public/static/esign/jquery-1.12.4.min.js"></script> -->
+    <script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
+    <!--<script src="dist/Tablet-1.0.min.js"></script>-->
+    <script src="/public/static/esign/colpick.js"></script>
+    <script src="/public/static/esign/Tablet-1.0.js"></script>
+    <script>
+        var tablet;
+        $(function () {
+            tablet = new Tablet("#container", {
+                defaultColor: "#2e76da",
+                // defaultBackgrondColor: '#f60',
+                onInit: function () {
+                    var that = this,
+
+                        container = this.container;
+                    $(".-color-picker").each(function () {
+                        var self = this,
+                            $self = $(this);
+                        if ($self.hasClass('color-color')) {
+
+                            $self.colpick({
+                                color: that.config.defaultColor,
+                                layout: 'hex',
+                                submitText: "确定",
+                                onSubmit: function (hsb, hex, rgb, el, bySetColor) {
+                                    var color = "#" + hex;
+                                    $(el).css({
+                                        //color: color,
+                                        "border-color": color
+                                    }).colpickHide();
+                                    el.selectedColor = color;
+                                    that.color = color;
+
+                                    that.setColor(color);
+                                }
+                            });
+                            $self.css({
+                                "border-color": that.config.defaultColor
+                            });
+                        } else if ($self.hasClass('bg-color')) {
+                            $self.colpick({
+                                color: that.config.defaultBackgroundColor,
+                                layout: 'hex',
+                                submitText: "确定",
+                                onSubmit: function (hsb, hex, rgb, el, bySetColor) {
+                                    var color = "#" + hex;
+                                    $(el).css({
+                                        //color: color,
+                                        "border-color": color
+                                    }).colpickHide();
+                                    el.selectedColor = color;
+                                    //that.bgColor = color;
+                                    that.setBackgroundColor(color);
+                                }
+                            });
+                            $self.css({
+                                "border-color": that.config.defaultBackgroundColor
+                            });
+                        }
+                    });
+                    $('.clear-canvas').on('click', function () {
+                        that.clear();
+                    })
+                    $(".tablet-btns select").eq(0).on("change", function () {
+                        that.setLineWidth($(this).val());
+                    });
+                    $(".tablet-btns select").eq(1).on("change", function () {
+                        that.rotate($(this).val());
+                    });
+                    $(".save-canvas-to-img").on("click", function () {
+                        console.log(that.getBase64());
+                        if (!that.isMobile) {
+                            alert("请按f12打开控制台查看base64图片数据！");
+                        }
+                    });
+                    $(".get_blob").on("click", function () {
+                        console.log(that.getBlob());
+                    });
+                    $(".set-img").on("click", function () {
+                        //console.log(that.getBlob());
+                        // that.setBackgroundImage('./images/beijing1.png');
+                        that.setBackgroundImage(document.getElementById('bg_img'));
+                    });
+                }
+            });
+            console.log(tablet);
+        });
+    </script>
+
+
+
+
+    <script src="/public/crm/js/require.min.js"></script>
+    <script>
+        requirejs.config({
+            baseUrl: '/public/'
+        });
+    </script>
+    <!-- Dashboard Core -->
+
+
+
+
+    <link rel="stylesheet" href="/public/static/default/lib/jquery-weui/weui.min.css">
+
+    <link href="/public/crm/css/dashboard.css" rel="stylesheet" />
+    <script src="/public/crm/js/dashboard.js?v=1646379867"></script>
+    <!-- c3.js Charts Plugin -->
+    <link href="/public/crm/plugins/charts-c3/plugin.css" rel="stylesheet" />
+    <script src="/public/crm/plugins/charts-c3/plugin.js"></script>
+    <!-- Google Maps Plugin>
+    <link href="/public/crm/plugins/maps-google/plugin.css" rel="stylesheet" />
+    <script src="/public/crm/plugins/maps-google/plugin.js"></script -->
+    <!-- Input Mask Plugin -->
+    <script src="/public/crm/plugins/input-mask/plugin.js"></script>
+
+
+    <!--script src="/public/crm/js/mobileSelect.js"></script>
+    <script src="/public/crm/js/rolldate.min.js"></script-->
+
+    <script src="/public/crm/js/popper.min.js?v=1646379867"></script>
+    <!--script type="text/javascript" src="/public/static/ymyui/js/ymyui.min.js"></script-->
+    <script type="text/javascript" src="/public/static/uploadify/jquery.uploadify.min.js?v=1646379867"></script>
+    <script type="text/javascript" src="/public/static/base/js/dialog.js?v=1646379867"></script>
+    <script type="text/javascript" src="/public/static/base/js/admin_image.js?v=1646379867"></script>
+
+    <script type="text/javascript" src="/public/static/webuploader-0.1.5/webuploader.js?v=1646379867"></script>
+
+    <!--script type="text/javascript" src="/public/static/masonry/masonry.pkgd.min.js"></script-->
+
+
+    <script type="text/javascript" src="/public/static/jquery.dragsort-0.5.2.min.js?v=1646379867"></script>
+    <!--script src="//cdn.bootcss.com/limonte-sweetalert2/7.21.1/sweetalert2.all.min.js"></script-->
+
+    <!--script src="/public/static/default/lib/formverfiy.js?v=1646379867"></script-->
+    <script type="text/javascript">
+        var IMG_PATH = "/public/static/base/images";
+        var STATIC = "/public/static";
+        var ROOT = "/public";
+        var UPLOAD_PICTURE = "https://member.creativebio.cn/public/index.php/home/file/upload_picture/session_id/434nb5vv2a02oto1v7ivbac35a/pbid/1";
+        var UPLOAD_FILE = "https://member.creativebio.cn/public/index.php/home/file/upload/session_id/434nb5vv2a02oto1v7ivbac35a/pbid/1";
+        var UPLOAD_DIALOG_URL = "https://member.creativebio.cn/public/index.php/home/file/upload_dialog/session_id/434nb5vv2a02oto1v7ivbac35a/pbid/1";
+        var COPY_PAGE_URL = "https://member.creativebio.cn/public/index.php/home/index/copy/pbid/1";
+    </script>
+
+
+    <script type="text/javascript" src="/public/static/base/js/public_common.js?v=1646379867"></script>
+
+
+
+
+    <!-- 
+<script src="/public/static/user/jquery.dialogBox.js"></script>
+
+  <link rel="stylesheet" type="text/css" href="/public/static/user/jquery.dialogbox.css"> -->
+
+
+
+    <script src="/public/static/userinfo/js/libs/modernizr.js"></script>
+    <!--[if lt IE 9]>
+<script type="text/javascript" src="/public/static/userinfo/js/libs/flashcanvas.js"></script>
+<![endif]-->
+
+
+
+
+
+
+    <style type="text/css">
+        <!--
+        body {
+            background-color: #68B430;
+        }
+
+        .container {
+
+            padding: 100px 0px;
+        }
+
+        @media (min-width: 576px) {
+            .container {
+                max-width: 540px;
+            }
+        }
+
+        @media (min-width: 768px) {
+            .container {
+                max-width: 720px;
+            }
+        }
+
+        @media (min-width: 992px) {
+            .container {
+                max-width: 960px;
+            }
+        }
+
+        @media (min-width: 1280px) {
+            .container {
+                max-width: 1200px;
+            }
+        }
+
+
+        body,
+        td,
+        th {
+            color: #FFFFFF;
+            line-height: 200%;
+
+        }
+
+        input {
+            background: #CCFFCC;
+            color: #006600;
+            border: 1px solid #66CC99;
+            border-radius: 3px;
+            padding: 3px 8px;
+        }
+
+        input[type=checkbox] {
+            -ms-transform: scale(2);
+            /* IE */
+            -moz-transform: scale(2);
+            /* FireFox */
+            -webkit-transform: scale(2);
+            /* Safari and Chrome */
+            -o-transform: scale(2);
+            /* Opera */
+        }
+
+        input[type=radio] {
+            -ms-transform: scale(1.5);
+            /* IE */
+            -moz-transform: scale(1.5);
+            /* FireFox */
+            -webkit-transform: scale(1.5);
+            /* Safari and Chrome */
+            -o-transform: scale(1.5);
+            /* Opera */
+        }
+
+        input[type=button] {
+            background: #336600;
+            color: #fff;
+            -ms-transform: scale(1.5);
+            /* IE */
+            -moz-transform: scale(1.5);
+            /* FireFox */
+            -webkit-transform: scale(1.5);
+            /* Safari and Chrome */
+            -o-transform: scale(1.5);
+            /* Opera */
+        }
+
+        button {
+            height: 30px;
+            background: #336600;
+            color: #fff;
+            border: 1px #33CC00 solid;
+            border-radius: 3px;
+            padding: 0px 5px;
+        }
+
+        .pagination li {
+            margin: 1px;
+            height: 30px;
+            width: 30px;
+            border: 1px solid #fff;
+            text-align: center;
+        }
+
+        .pagination li span {
+            background-color: #FFF;
+            display: block;
+            height: 30px;
+            width: 30px;
+        }
+
+        .pagination li a {
+            color: #fff;
+            font-weight: bold;
+            font-size: 16px;
+            display: block;
+        }
+
+        .pagination li span {
+            color: #68B430;
+            font-weight: bold;
+            font-size: 16px;
+        }
+        -->
+    </style>
+</head>
+
+<body>
+
+    <div class="container">
+        <div id="nav" style="background:#68B430; text-align:center; position:fixed; top:0px; z-index:1;"><img
+                src="/public/static/userinfo/images/logo2.jpg" /></div>
+
+
+
+
+
+
+
+
+
+
+
+        <div style="margin:20px 10px 10px 10px">
+            <form id="form1" name="form1" method="post"
+                action="https://member.creativebio.cn/public/index.php/user/wap/infoadd/pbid/1">
+
+                <table width="100%" border="0" cellpadding="0" cellspacing="5">
+                    <tr>
+                        <td>
+                            <div align="right">条形码：
+                            </div>
+                        </td>
+                        <td><input name="bcycode" type="text" placeholder="扫描收集管身的CBC码" id="bcycode"
+                                style="height:40px;" value="" />
+                            <button type="button" id="scanbutton">扫描</button>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td width="25%">
+                            <div align="right">姓名：</div>
+                        </td>
+                        <td width="75%"><input type="text" name="cname" id="cname" value="" />
+                            *</td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <div align="right">性别：</div>
+                        </td>
+                        <td><input name="sex" type="radio" id="sex" value="男" />
+                            男
+                            &nbsp;&nbsp;&nbsp;&nbsp;
+                            <input name="sex" type="radio" id="sex" value="女" />
+                            女
+                            *
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <div align="right">年龄： </div>
+                        </td>
+                        <td><input type="text" name="age" id="age" value="" />
+                            岁
+                            *</td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <div align="right">送检医院： </div>
+                        </td>
+                        <td><input type="text" name="hospital" id="hospital" value="无" /></td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <div align="right">取样时间： </div>
+                        </td>
+                        <td><input type="text" name="sendtime" id="sendtime" data-mask="0000/00/00 00:00:00"
+                                data-mask-clearifnotmatch="true" placeholder="0000/00/00 00:00" value="" />
+                            *</td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <div align="right">手机： </div>
+                        </td>
+                        <td><input type="tel" name="mobile" id="mobile" value="" />
+                            *</td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <div align="right">身份证号： </div>
+                        </td>
+                        <td><input type="text" name="idno" id="idno" value="" />
+                            *</td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <div align="right">邮箱： </div>
+                        </td>
+                        <td><input name="email" id="email" type="email" value="" /></td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <div align="right">地址：</div>
+                        </td>
+                        <td><input type="text" name="address" id="address" value="" onblur="this.blur()" /></td>
+                    </tr>
+                    <tr style="display: none;">
+                        <td>
+                            <div align="right">赠送保险：</div>
+                        </td>
+                        <td><input type="checkbox" name="ins" id="ins" value="1" /><label
+                                for="ins">如果结果为阴性，自动投保阴性险。</label></td>
+                    </tr>
+
+
+                    <tr>
+                        <td colspan="2">
+                            <p><strong>温馨提示： </strong></p>
+                            <p style="line-height:130%;">您的手机号、身份证号、邮箱、地址只用于接收报告、电话服务以及购买保险之用。 </p>
+                        </td>
+                    </tr>
+
+
+
+                    <!-- <tr> -->
+                    <!-- <td colspan="2">
+  <p><strong>受检者陈述    </strong></p>
+  <p style="line-height:130%;">本人承诺：本人提供的以上个人信息真实可靠（若信息有误，一切后果由本人承担）。本人已知晓并同意以上各条款所属所有内容，已清楚了解本检测的性质以及可能存在的风险，愿意进行该项检测，并承担因该项检测带来的相关风险。
+
+    我已详细阅读以上告知内容，并已知晓检测的指导价值，愿意承担可能因检测带来的心理风险，同意做此检查。 </p></td>
+</tr> -->
+
+
+                    <tr style="display: none;">
+                        <td>
+                            <div>签名*：</div>
+
+                        </td>
+                        <td align="right">
+                            <textarea name="sign" id="sign" style="display:none;" />
+                            </textarea>
+                            <div><button type="button" onClick="$('#signature').jSignature('reset');">重新签名</button>
+                            </div>
+                            <!--esign.jSignature('clear');-->
+
+                        </td>
+                    </tr>
+
+                    <tr style="display: none;">
+                        <td colspan="2">
+                            <style type="text/css">
+                                /***
+	div {
+
+	}
+	input {
+		padding: .5em;
+		margin: .5em;
+	}
+	select {
+		padding: .5em;
+		margin: .5em;
+	}
+	****/
+                                #signatureparent {
+                                    color: #336600;
+                                    background-color: #CCFFCC;
+                                    /*max-width:600px;*/
+                                    padding: 1px;
+                                }
+
+                                /*This is the div within which the signature canvas is fitted*/
+                                #signature {
+                                    border: 2px dotted black;
+                                    background-color: #CCFFCC;
+
+                                    height: 154px;
+                                }
+
+                                /* Drawing the 'gripper' for touch-enabled devices */
+                                html.touch #content {
+                                    float: left;
+                                    width: 100%;
+                                }
+
+                                html.touch #scrollgrabber {
+                                    float: right;
+                                    width: 4%;
+                                    margin-right: 2%;
+                                    background-image: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAAFCAAAAACh79lDAAAAAXNSR0IArs4c6QAAABJJREFUCB1jmMmQxjCT4T/DfwAPLgOXlrt3IwAAAABJRU5ErkJggg==)
+                                }
+
+                                html.borderradius #scrollgrabber {
+                                    border-radius: 1em;
+                                }
+                            </style>
+                            <div>
+                                <div id="content">
+                                    <div id="signatureparent">
+
+                                        <div id="signature"></div>
+                                    </div>
+                                    <!--div id="tools"></div>
+	<div><p></p><div id="displayarea"></div></div-->
+                                </div>
+                                <!--div id="scrollgrabber"></div-->
+                            </div>
+
+                            <!--[if lt IE 9]>
+<script type="text/javascript" src="/public/static/userinfo/js/libs/flashcanvas.js"></script>
+<![endif]-->
+
+
+
+                        </td>
+                    </tr>
+                </table>
+            </form>
+        </div>
+        <div style="width:100%; text-align:center; padding:10px;"><button type="submit" id="submit"
+                onclick="return verify()">提交</button></div><br><br><br>
+
+
+        <script src="/public/static/userinfo/js/libs/jSignature.min.js"></script>
+        <script>
+
+
+
+
+            //定义阻止事件传递
+            function eventStop(event) {
+                event.preventDefault();
+            }
+
+
+
+            // $(document).ready(function() {
+            var dWidth = $("#signature").width();
+            var esign = $("#signature").jSignature({ height: 150, width: dWidth + "" });
+
+
+
+            //隐藏弹层，设置页面可滑动
+            $("body").css("overflow", "auto");
+            document.body.removeEventListener('touchmove', eventStop, false);
+            document.body.addEventListener('touchstart touchmove touchend', eventStop, false);
+            // $(document).on('touchstart touchmove touchend', $.proxy(function(e) {
+            //         if (e.target === this.canvas) {
+            //                   e.preventDefault();
+            //          }
+            //               }, this));
+
+            $("#submit").click(function () {
+                var data = esign.jSignature("getData", "image");
+                $("#sign").val(data[0] + "," + data[1]);
+                //alert("data:" + data[0] + "," + data[1]);
+                $("form").submit();
+                //return false;
+                //return true;
+            });
+
+
+    // });
+
+        </script>
+
+
+
+
+
+
+
+
+        <!--<script>-->
+        <!--function verify() {-->
+        <!--if("" == $("input[name='hospital']").val()){-->
+        <!--alert("若无送检医院，请填写无")-->
+        <!--return false-->
+        <!--}-->
+        <!--return true-->
+        <!--}-->
+
+        <!--</script>-->
+
+
+
+
+        <div style=" background: #68B430;text-align:center; position:fixed; bottom:0px; z-index:1; width:100%; "><img
+                src="/public/static/userinfo/images/footer.png" style="width:50%;" /></div>
+    </div>
+
+
+
+    <div id="insdetail"></div>
+    <script type="text/javascript">
+        $(function () {
+
+
+            //type dialogBox
+            $('#ins').click(function () {
+                $('#insdetail').dialogBox({
+                    type: 'correct',  //three type:'normal'(default),'correct','error',
+                    width: '98%',
+                    height: '98%',
+                    hasMask: true,
+                    hasClose: true,
+                    hasBtn: true,
+                    effect: 'sign',
+                    title: '保险条款',
+                    content: '1、本保险由广州康立明生物有限责任公司投保，由京东安联城堡。<br>2、您检测结果为阴性，如报告出具后一年内出现保险公司规定的重大疾病，您将获得保险公司10万元一次性给付。'
+                });
+            })
+
+
+        })
+    </script>
+
+
+
+    <script type="text/javascript">
+        define = null;
+        require = null;
+    </script>
+
+
+    <script src="https://res.wx.qq.com/open/js/jweixin-1.6.0.js" type="text/javascript"></script>
+    <script>
+        /*
+         * 注意：
+         * 1. 所有的JS接口只能在公众号绑定的域名下调用，公众号开发者需要先登录微信公众平台进入“公众号设置”的“功能设置”里填写“JS接口安全域名”。
+         * 2. 如果发现在 Android 不能分享自定义内容，请到官网下载最新的包覆盖安装，Android 自定义分享接口需升级至 6.0.2.58 版本及以上。
+         * 3. 常见问题及完整 JS-SDK 文档地址：http://mp.weixin.qq.com/wiki/7/aaa137b55fb2e0456bf8dd9148dd613f.html
+         *
+         * 开发中遇到问题详见文档“附录5-常见错误及解决办法”解决，如仍未能解决可通过以下渠道反馈：
+         * 邮箱地址：weixin-open@qq.com
+         * 邮件主题：【微信JS-SDK反馈】具体问题
+         * 邮件内容说明：用简明的语言描述问题所在，并交代清楚遇到该问题的场景，可附上截屏图片，微信团队会尽快处理你的反馈。
+         */
+
+        window.onload = function () {
+            wx.config({
+                debug: false,
+                appId: 'wx7ab5afb4069452a0',
+                timestamp: 1646379867,
+                nonceStr: 'asYXweh02YFkhDEd',
+                signature: '76e32cbce43067904c7da0b02fae52d696bd13af',
+                jsApiList: [
+                    'getLocation', 'scanQRCode',
+                ]
+            });
+
+
+
+
+
+
+
+            wx.ready(function () {
+
+
+                $('#scanbutton').bind('click', function () {
+
+                    wx.scanQRCode({
+                        needResult: 1, // 默认为0，扫描结果由微信处理，1则直接返回扫描结果，  
+                        scanType: ["barCode"], // 可以指定扫二维码还是一维码，默认二者都有  
+                        success: function (res) {
+                            var result = res.resultStr; // 当needResult 为 1 时，扫码返回的结果  
+                            if (result.indexOf(",") != -1) {
+                                result = result.split(",")[1]; //如果是条形码，则需要取第二个
+                            }
+                            //alert(JSON.stringify(result));
+                            /***
+                            $.getJSON("./queryscanAIcode.do?code="+result,function(j){
+                                if(j.code==0){
+                                	
+                                }else{
+                                    alert(j.message);
+                                }
+                            	
+                            })***/
+                            if (result.indexOf("http://") > -1) {
+                                alert("请避开二维码，仅扫描BCY开头的条形码。");
+                            } else if (result.indexOf("BCY") > -1 || result.indexOf("CBC") > -1 || result.indexOf("111888") > -1) {
+                                $("#bcycode").val(result);
+                                $("#bcycode").select();
+                            } else {
+                                alert("您扫描的可能不是长安心的产品条形码。\n请扫描BCY或CBC开头的条形码！");
+                            }
+                        }
+                    });
+
+
+                });
+
+            });
+
+            wx.error(function (res) {
+                alert(res.errMsg);
+            });
+
+
+
+            var mo = function (e) { e.preventDefault(); };
+            function stop() {
+                document.body.style.overflow = 'hidden';
+                document.addEventListener("touchmove", mo, false);//禁止页面滑动
+            }
+            /***取消滑动限制***/
+            function move() {
+                document.body.style.overflow = '';//出现滚动条
+                document.removeEventListener("touchmove", mo, false);
+            }
+
+
+
+            new Rolldate({
+                el: '#sendtime',
+                format: 'YYYY/MM/DD hh:mm',
+                beginYear: 2000,
+                endYear: 2100,
+
+            });
+        }
+
+
+
+
+
+
+    </script>
+
+
+
+    <script>
+
+
+        $("form").submit(function () {
+            var self = $(this);
+            $.post(self.attr("action"), self.serialize(), success, "json");
+            return false;
+
+            function success(data) {
+
+
+                if (data.code) {
+                    window.location.href = data.url;
+                } else {
+                    alert(data.msg);
+                    //showerr(data.msg);
+                }
+            }
+        });
+
+    </script>
+
+
+
+
+    <script type="text/javascript" src="/public/crm/js/rolldate.min.js"></script>
+
+    <script type="text/javascript" src="/public/static/userinfo/js/navfix.js"></script>
+    <script type="text/javascript">
+        $(document).ready(function (e) {
+            $('#nav').navfix(0, 999);
+        });
+
+    </script>
+
+</body>
+
+</html>
