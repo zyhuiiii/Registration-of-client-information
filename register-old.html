@@ -153,7 +153,7 @@
     <link rel="stylesheet" href="/public/static/default/lib/jquery-weui/weui.min.css">
 
     <link href="/public/crm/css/dashboard.css" rel="stylesheet" />
-    <script src="/public/crm/js/dashboard.js?v=1646379867"></script>
+    <script src="/public/crm/js/dashboard.js?v=1646354699"></script>
     <!-- c3.js Charts Plugin -->
     <link href="/public/crm/plugins/charts-c3/plugin.css" rel="stylesheet" />
     <script src="/public/crm/plugins/charts-c3/plugin.js"></script>
@@ -167,33 +167,33 @@
     <!--script src="/public/crm/js/mobileSelect.js"></script>
     <script src="/public/crm/js/rolldate.min.js"></script-->
 
-    <script src="/public/crm/js/popper.min.js?v=1646379867"></script>
+    <script src="/public/crm/js/popper.min.js?v=1646354699"></script>
     <!--script type="text/javascript" src="/public/static/ymyui/js/ymyui.min.js"></script-->
-    <script type="text/javascript" src="/public/static/uploadify/jquery.uploadify.min.js?v=1646379867"></script>
-    <script type="text/javascript" src="/public/static/base/js/dialog.js?v=1646379867"></script>
-    <script type="text/javascript" src="/public/static/base/js/admin_image.js?v=1646379867"></script>
+    <script type="text/javascript" src="/public/static/uploadify/jquery.uploadify.min.js?v=1646354699"></script>
+    <script type="text/javascript" src="/public/static/base/js/dialog.js?v=1646354699"></script>
+    <script type="text/javascript" src="/public/static/base/js/admin_image.js?v=1646354699"></script>
 
-    <script type="text/javascript" src="/public/static/webuploader-0.1.5/webuploader.js?v=1646379867"></script>
+    <script type="text/javascript" src="/public/static/webuploader-0.1.5/webuploader.js?v=1646354699"></script>
 
     <!--script type="text/javascript" src="/public/static/masonry/masonry.pkgd.min.js"></script-->
 
 
-    <script type="text/javascript" src="/public/static/jquery.dragsort-0.5.2.min.js?v=1646379867"></script>
+    <script type="text/javascript" src="/public/static/jquery.dragsort-0.5.2.min.js?v=1646354699"></script>
     <!--script src="//cdn.bootcss.com/limonte-sweetalert2/7.21.1/sweetalert2.all.min.js"></script-->
 
-    <!--script src="/public/static/default/lib/formverfiy.js?v=1646379867"></script-->
+    <!--script src="/public/static/default/lib/formverfiy.js?v=1646354699"></script-->
     <script type="text/javascript">
         var IMG_PATH = "/public/static/base/images";
         var STATIC = "/public/static";
         var ROOT = "/public";
-        var UPLOAD_PICTURE = "https://member.creativebio.cn/public/index.php/home/file/upload_picture/session_id/434nb5vv2a02oto1v7ivbac35a/pbid/1";
-        var UPLOAD_FILE = "https://member.creativebio.cn/public/index.php/home/file/upload/session_id/434nb5vv2a02oto1v7ivbac35a/pbid/1";
-        var UPLOAD_DIALOG_URL = "https://member.creativebio.cn/public/index.php/home/file/upload_dialog/session_id/434nb5vv2a02oto1v7ivbac35a/pbid/1";
+        var UPLOAD_PICTURE = "https://member.creativebio.cn/public/index.php/home/file/upload_picture/session_id/s11j1ek4b4298a8vgjsrb4seep/pbid/1";
+        var UPLOAD_FILE = "https://member.creativebio.cn/public/index.php/home/file/upload/session_id/s11j1ek4b4298a8vgjsrb4seep/pbid/1";
+        var UPLOAD_DIALOG_URL = "https://member.creativebio.cn/public/index.php/home/file/upload_dialog/session_id/s11j1ek4b4298a8vgjsrb4seep/pbid/1";
         var COPY_PAGE_URL = "https://member.creativebio.cn/public/index.php/home/index/copy/pbid/1";
     </script>
 
 
-    <script type="text/javascript" src="/public/static/base/js/public_common.js?v=1646379867"></script>
+    <script type="text/javascript" src="/public/static/base/js/public_common.js?v=1646354699"></script>
 
 
 
@@ -216,14 +216,14 @@
 
 
     <style type="text/css">
-        <!--
         body {
             background-color: #68B430;
         }
 
         .container {
-
+            font-size: 17px;
             padding: 100px 0px;
+            margin: auto;
         }
 
         @media (min-width: 576px) {
@@ -254,18 +254,27 @@
         body,
         td,
         th {
+            /* font-weight: bold; */
             color: #FFFFFF;
             line-height: 200%;
-
         }
+
+
 
         input {
             background: #CCFFCC;
             color: #006600;
             border: 1px solid #66CC99;
             border-radius: 3px;
-            padding: 3px 8px;
+            padding: 3px 5px;
+            width: 64%;
+            line-height: 25px;
         }
+
+        input#sex {
+            width: auto;
+        }
+
 
         input[type=checkbox] {
             -ms-transform: scale(2);
@@ -302,13 +311,18 @@
             /* Opera */
         }
 
+
         button {
-            height: 30px;
+            line-height: 31px;
             background: #336600;
             color: #fff;
             border: 1px #33CC00 solid;
             border-radius: 3px;
-            padding: 0px 5px;
+        }
+
+        button#submit {
+            padding: 5px 30px;
+            font-size: 17px;
         }
 
         .pagination li {
@@ -338,7 +352,6 @@
             font-weight: bold;
             font-size: 16px;
         }
-        -->
     </style>
 </head>
 
@@ -347,96 +360,80 @@
     <div class="container">
         <div id="nav" style="background:#68B430; text-align:center; position:fixed; top:0px; z-index:1;"><img
                 src="/public/static/userinfo/images/logo2.jpg" /></div>
-
-
-
-
-
-
-
-
-
-
-
-        <div style="margin:20px 10px 10px 10px">
+        <div>
             <form id="form1" name="form1" method="post"
                 action="https://member.creativebio.cn/public/index.php/user/wap/infoadd/pbid/1">
 
                 <table width="100%" border="0" cellpadding="0" cellspacing="5">
                     <tr>
                         <td>
-                            <div align="right">条形码：
-                            </div>
+                            <div align="right">条形码:</div>
                         </td>
-                        <td><input name="bcycode" type="text" placeholder="扫描收集管身的CBC码" id="bcycode"
-                                style="height:40px;" value="" />
+                        <td><input name="bcycode" type="text" placeholder="扫描收集管身的CBC码" id="bcycode" value="" />
                             <button type="button" id="scanbutton">扫描</button>
                         </td>
                     </tr>
                     <tr>
-                        <td width="25%">
-                            <div align="right">姓名：</div>
+                        <td>
+                            <div align="right">姓名:</div>
                         </td>
-                        <td width="75%"><input type="text" name="cname" id="cname" value="" />
-                            *</td>
+                        <td><input type="text" name="cname" id="cname" value="" />*</td>
                     </tr>
                     <tr>
                         <td>
-                            <div align="right">性别：</div>
+                            <div align="right">性别:</div>
                         </td>
                         <td><input name="sex" type="radio" id="sex" value="男" />
                             男
                             &nbsp;&nbsp;&nbsp;&nbsp;
                             <input name="sex" type="radio" id="sex" value="女" />
-                            女
-                            *
+                            女*
                         </td>
                     </tr>
                     <tr>
                         <td>
-                            <div align="right">年龄： </div>
+                            <div align="right">年龄:</div>
                         </td>
                         <td><input type="text" name="age" id="age" value="" />
-                            岁
-                            *</td>
+                            岁*</td>
                     </tr>
                     <tr>
                         <td>
-                            <div align="right">送检医院： </div>
+                            <div align="right">送检医院:</div>
                         </td>
                         <td><input type="text" name="hospital" id="hospital" value="无" /></td>
                     </tr>
                     <tr>
                         <td>
-                            <div align="right">取样时间： </div>
+                            <div align="right">取样时间:</div>
                         </td>
-                        <td><input type="text" name="sendtime" id="sendtime" data-mask="0000/00/00 00:00:00"
-                                data-mask-clearifnotmatch="true" placeholder="0000/00/00 00:00" value="" />
-                            *</td>
+                        <td><input type="text" name="sendtime" id="sendtime" data-mask="0000/00/00 00时"
+                                data-mask-clearifnotmatch="true" placeholder="0000/00/00 00时" value="" />*
+                        </td>
                     </tr>
                     <tr>
                         <td>
-                            <div align="right">手机： </div>
+                            <div align="right">手机:</div>
                         </td>
-                        <td><input type="tel" name="mobile" id="mobile" value="" />
-                            *</td>
+                        <td><input type="tel" name="mobile" id="mobile" value="" />*
+                        </td>
                     </tr>
                     <tr>
                         <td>
-                            <div align="right">身份证号： </div>
+                            <div align="right">身份证号:</div>
                         </td>
-                        <td><input type="text" name="idno" id="idno" value="" />
-                            *</td>
+                        <td><input type="text" name="idno" id="idno" value="" />*
+                        </td>
                     </tr>
                     <tr>
                         <td>
-                            <div align="right">邮箱： </div>
+                            <div align="right">邮箱:</div>
                         </td>
                         <td><input name="email" id="email" type="email" value="" /></td>
                     </tr>
                     <tr>
                         <td>
-                            <div align="right">地址：</div>
+                            <div align="right">地址:</div>
                         </td>
                         <td><input type="text" name="address" id="address" value="" onblur="this.blur()" /></td>
                     </tr>
@@ -451,8 +448,8 @@
 
                     <tr>
                         <td colspan="2">
-                            <p><strong>温馨提示： </strong></p>
-                            <p style="line-height:130%;">您的手机号、身份证号、邮箱、地址只用于接收报告、电话服务以及购买保险之用。 </p>
+                            <p style="line-height: 100%;"><strong>温馨提示： </strong></p>
+                            <p style="line-height:130%;font-weight: normal;">您的手机号、身份证号、邮箱、地址只用于接收报告、电话服务以及购买保险之用。 </p>
                         </td>
                     </tr>
 
@@ -677,9 +674,9 @@
             wx.config({
                 debug: false,
                 appId: 'wx7ab5afb4069452a0',
-                timestamp: 1646379867,
-                nonceStr: 'asYXweh02YFkhDEd',
-                signature: '76e32cbce43067904c7da0b02fae52d696bd13af',
+                timestamp: 1646354699,
+                nonceStr: 'XpyIn1TwshI68YO3',
+                signature: 'a1ea6275294c3cd2d88c48dd78997de89e99d4dd',
                 jsApiList: [
                     'getLocation', 'scanQRCode',
                 ]
@@ -751,7 +748,7 @@
 
             new Rolldate({
                 el: '#sendtime',
-                format: 'YYYY/MM/DD hh:mm',
+                format: 'YYYY/MM/DD hh',
                 beginYear: 2000,
                 endYear: 2100,
 
